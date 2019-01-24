@@ -1,5 +1,5 @@
-/* global store, cuid */
-
+/* global store, cuid,item */
+'use strict';
 // eslint-disable-next-line no-unused-vars
 const shoppingList = (function(){
 
@@ -56,7 +56,15 @@ const shoppingList = (function(){
   
   
   function addItemToShoppingList(itemName) {
-    store.items.push({ id: cuid(), name: itemName, checked: false });
+    try {
+      item.validateName(itemName);
+      item.create(itemName);
+      store.items.push({ id: cuid(), name: itemName, checked: false });
+      render();
+    } catch (error) {
+      console.log('Cannot add item:');
+    }
+    
   }
   
   function handleNewItemSubmit() {
